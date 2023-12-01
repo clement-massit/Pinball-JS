@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css?family=Hind");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  color: #dee2e6;
+  background-color: #3c3e3f;
+  font-family: "Hind", sans-serif;
+  text-transform: uppercase;
+}
+
+.container {
+  position: relative;
+  line-height: 0;
+}
+
+.score {
+  position: absolute;
+  text-align: center;
+  justify-content: center;
+  bottom: 2vh;
+}
+
+.score span {
+  font-size: 3rem;
+}
+
+.current-score {
+  right: 27%;
+}
+
+.high-score {
+  position: absolute;
+  text-align: center;
+  justify-content: center;
+  left: 25%;
+}
+
+@media (min-width: 600px) {
+  .left-trigger {
+    display: none;
+  }
+
+  .right-trigger {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .trigger {
+    appearance: none;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    bottom: 10px;
+    border: 0;
+    border-radius: 50%;
+    color: inherit;
+    background-color: "#FF019A";
+    text-align: center;
+    line-height: 80px;
+    font-size: 1.25rem;
+    text-transform: inherit;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+  }
+
+  .left-trigger {
+    left: 10px;
+  }
+
+  .right-trigger {
+    right: 10px;
+  }
+}
+
+canvas {
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 5px 25px rgba(202, 86, 86, 0.75);
+}
+
+/* responsive scaling, because pinball tables are tall */
+@media (min-height: 0px) {
+  .container {
+    transform: scale(0.25);
+  }
+}
+@media (min-height: 400px) {
+  .container {
+    transform: scale(0.5);
+  }
+}
+@media (min-height: 600px) {
+  .container {
+    transform: scale(0.75);
+  }
+}
+@media (min-height: 800px) {
+  .container {
+    transform: scale(1);
+  }
+}
