@@ -25,14 +25,15 @@ let $highScore = $(".high-score span");
 // shared variables
 let currentScore, highScore;
 
-let engine, world, bumper, paddleleft, paddleright;
-let leftPaddleUp;
-let rightPaddleUp;
+let engine, bumper;
+
 let leftPaddle;
 let rightPaddle;
+let topPaddle;
+let topFired = false;
 let leftFired = false;
 let rightFired = false;
-let listening = false;
+
 const bufferGroup = Matter.Body.nextGroup(false);
 let paddleGroup = Matter.Body.nextGroup(true);
 // render
@@ -73,16 +74,20 @@ function init() {
 
     bump(150, 200),
     bump(350, 200),
-    bump(200, 270),
-    bump(300, 270),
+    // bump(200, 270),
+    // bump(300, 270),
     bump(200, 130),
     bump(300, 130),
+    bump(75, 75),
 
     reset(250, 635, 100, 2),
+    reset(485, 529, 32, 2),
+
     customShape(510, 550, 0.94, CUSTOM_PATH),
     customShape(50, 650, -0.6, ground_custom),
     customShape(500, 650, -0.6, ground_custom),
-    components(25, 300, 50, 85, 0.5, (3 * Math.PI) / 4),
+
+    components(3, 315, 50, 60, 0.5, (0.85 * (3 * Math.PI)) / 4),
     components(440, 325, 50, 50, 0.5, -Math.PI / 2),
   ]);
   // Matter.World.add(engine.world, [
@@ -98,6 +103,9 @@ function init() {
   )[0];
   rightPaddle = engine.world.bodies.filter(
     (body) => body.label === "rightPaddle"
+  )[0];
+  topPaddle = engine.world.bodies.filter(
+    (body) => body.label === "topPaddle"
   )[0];
 
   let buffers = engine.world.bodies.filter((body) => body.label === "buffer");
@@ -115,7 +123,11 @@ function init() {
     category: 935,
     mask: 2,
   };
-
+  topPaddle.collisionFilter = {
+    group: bufferGroup,
+    category: 935,
+    mask: 2,
+  };
   launchPinball();
   paddleCommands();
 
@@ -248,10 +260,14 @@ function firePaddle(e) {
   if (
     keyCode === 37 &&
     leftPaddle.isSleeping === false &&
-    leftFired === false
+    leftFired === false &&
+    topPaddle.isSleeping === false &&
+    topFired === false
   ) {
     leftFired = true;
+    topFired = true;
     Matter.Body.setAngularVelocity(leftPaddle, -1);
+    Matter.Body.setAngularVelocity(topPaddle, -1);
   } else if (
     keyCode === 39 &&
     rightPaddle.isSleeping === false &&
@@ -267,6 +283,8 @@ function releasePaddle(e) {
   if (keyCode === 37) {
     leftFired = false;
     leftPaddle.isSleeping = false;
+    topFired = false;
+    topPaddle.isSleeping = false;
   } else if (keyCode === 39) {
     rightFired = false;
     rightPaddle.isSleeping = false;

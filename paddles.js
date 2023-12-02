@@ -63,6 +63,38 @@ export const paddles = function paddles() {
     length: 1,
     render: { visible: false },
   });
+  //
+
+  let topPaddle = Bodies.trapezoid(68, 350, 25, 80, 0.25, {
+    label: "topPaddle",
+    angle: (2 * Math.PI) / 3,
+    chamfer: { radius: 10 },
+    isSleeping: true,
+    render: { fillStyle: COLORS.PADDLE },
+    isStatic: false,
+  });
+  let topHinge = Bodies.circle(50, 339, 5, { isStatic: true });
+  let topConstraint = Constraint.create({
+    bodyA: topPaddle,
+    bodyB: topHinge,
+    pointA: { x: -18, y: -11 },
+    stiffness: 0,
+    length: 0,
+  });
+  let topBlock = Bodies.rectangle(80, 339, 30, 30, {
+    isStatic: false,
+    render: { visible: false },
+  });
+  let topWeight = Constraint.create({
+    bodyA: topPaddle,
+    bodyB: topBlock,
+    pointA: { x: 13, y: 11 },
+    stiffness: 1,
+    length: 1,
+    render: { visible: false },
+  });
+
+  //
 
   let leftBuffer = Bodies.circle(190, 605, 50, {
     label: "buffer",
@@ -80,6 +112,16 @@ export const paddles = function paddles() {
     render: { visible: false },
   });
   let rightTopBuffer = Bodies.circle(300, 450, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false },
+  });
+  let topBuffer = Bodies.circle(80, 420, 50, {
+    label: "buffer",
+    isStatic: true,
+    render: { visible: false },
+  });
+  let topTopBuffer = Bodies.circle(80, 265, 50, {
     label: "buffer",
     isStatic: true,
     render: { visible: false },
@@ -109,5 +151,12 @@ export const paddles = function paddles() {
     rightBuffer,
     leftTopBuffer,
     rightTopBuffer,
+    topPaddle,
+    topWeight,
+    topHinge,
+    topBlock,
+    topConstraint,
+    topBuffer,
+    topTopBuffer,
   ];
 };
